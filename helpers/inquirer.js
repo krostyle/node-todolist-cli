@@ -39,20 +39,20 @@ const preguntas = [{
 
 
 const inquirerMenu = async() => {
-    //console.clear();
+    // console.clear();
     console.log('==========================='.green)
     console.log('   Seleccione una opción   '.green)
-    console.log('==========================='.green)
+    console.log('===========================\n'.green)
 
-    const opt = await inquirer.prompt(preguntas);
-    return opt;
+    const { opcion } = await inquirer.prompt(preguntas);
+    return opcion;
 }
 
 const pausa = async() => {
     const question = [{
         type: 'input',
         name: 'Enter',
-        message: `Presione ${'Enter'.green} para cointinuar`
+        message: `Presione ${'Enter'.green} para continuar`
     }]
     console.log('\n')
     await inquirer.prompt(question)
@@ -69,7 +69,7 @@ const readInput = async(message) => {
             }
             return true;
         }
-    }]
+    }];
 
     const { description } = await inquirer.prompt(question);
     return description;
