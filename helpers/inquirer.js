@@ -75,8 +75,75 @@ const readInput = async(message) => {
     return description;
 }
 
+const listDeleteTasks = async(tasks) => {
+    const choices = tasks.map((task, i) => {
+        const id = `${i+1}`.green
+        return {
+            value: task.id,
+            name: `${id} ${task.description}`
+        }
+    });
+
+    choices.unshift({
+        value: '0',
+        name: `${ '0.'.green } Cancelar`
+    });
+
+    const question = [{
+        type: 'list',
+        name: 'tarea',
+        message: '¿Qué tarea desea borrar?',
+        choices
+    }];
+
+    const { tarea } = await inquirer.prompt(question);
+    return tarea;
+}
+
+const confirm = async(message) => {
+    const question = [{
+        type: 'confirm',
+        name: 'confirm',
+        message
+    }];
+
+    const { confirm } = await inquirer.prompt(question);
+    return confirm;
+}
+
+
+const showCheckList = async(tasks) => {
+    const choices = tasks.map((task, i) => {
+        const id = `${i+1}`.green
+        return {
+            value: task.id,
+            name: `${id} ${task.description}`,
+            checked: (task.completedDate) ? true : false
+        }
+    });
+
+    choices.unshift({
+        value: '0',
+        name: `${ '0.'.green } Cancelar`
+    });
+
+    const question = [{
+        type: 'checkbox',
+        name: 'tarea',
+        message: 'Seleccione',
+        choices
+    }];
+
+    const { tarea } = await inquirer.prompt(question);
+    return tarea;
+}
+
+
 module.exports = {
     inquirerMenu,
     pausa,
-    readInput
+    readInput,
+    listDeleteTasks,
+    confirm,
+    showCheckList
 }

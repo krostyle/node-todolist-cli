@@ -1,5 +1,5 @@
 require('colors');
-const { inquirerMenu, pausa, readInput } = require('./helpers/inquirer');
+const { inquirerMenu, pausa, readInput, listDeleteTasks, confirm, showCheckList } = require('./helpers/inquirer');
 //const Todo = require('./classes/Todo')
 const Todos = require('./classes/Todos');
 const { saveTask, readDB } = require('./helpers/db');
@@ -22,6 +22,26 @@ const main = async() => {
                 break;
             case '2':
                 todos.showTasks();
+                break;
+            case '3':
+                todos.listCompletedPendingTask(true);
+                break;
+            case '4':
+                todos.listCompletedPendingTask(false);
+                break;
+            case '5':
+                const ids = await showCheckList(todos.listTasks)
+                todos.toggleCompleted(ids)
+                break;
+            case '6':
+                const id = await listDeleteTasks(todos.listTasks);
+                if (id !== '0') {
+                    const deleteTask = await confirm('¿Esta seguro que desea eliminar la tarea?');
+                    if (deleteTask) {
+                        todos.deleteTask(id)
+                        console.log(`La tarea con id ${id} ha sido eliminada.`);
+                    }
+                }
                 break;
         }
 
